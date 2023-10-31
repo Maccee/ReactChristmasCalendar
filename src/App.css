@@ -1,0 +1,41 @@
+body {
+  background-color: black;
+}
+.app-container {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  
+  align-items: center;
+  height: 680px;
+  width: 100%;
+}
+
+.calendar {
+  background-image: url(../src/assets/kalenteri.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 400px;
+  
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns */
+  grid-template-rows: repeat(6, 1fr); /* 6 rows */
+  gap: 1rem; /* spacing between doors */
+  padding: 1rem; /* Optional: to provide some space around the edge */
+  justify-items: center;
+}
+
+.door {
+  box-sizing: border-box;
+  border: 1px dashed rgb(146, 146, 146);
+  color: white;
+  width: 100%; /* fill the entire grid cell */
+  height: 100%; /* fill the entire grid cell */
+  padding: 0.5rem;
+}
+.gray-background {
+  background-color: rgb(41, 41, 41);
+  box-shadow: inset 3px 3px 10px 3px rgba(0, 0, 0, 0.7);
+}
