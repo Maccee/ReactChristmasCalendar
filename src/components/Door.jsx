@@ -9,7 +9,7 @@ const Door = ({ door, onClick, onDecorationClick }) => {
         return (
             <img
                 src={`./src/assets/${door.decoration}`}
-                alt="Decoration"
+                alt=""
                 className="door gray-background"
                 onClick={() => {
                     handleDoorClick();  // This will change the status to "gray"
