@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useDecorations } from '../DecorationsContext';
+
 
 const TREE_IMAGE_DEFAULT = './src/assets/joulukuusi.png';
 const TREE_IMAGE_LIGHTS = './src/assets/joulukuusil.png';
@@ -8,7 +10,7 @@ const Decoration = ({ decoration, onDragStart, defaultTop }) => {
     const decorationStyles = {
         width: decoration.type === 'star.svg' ? '100px' : '50px',
         height: decoration.type === 'star.svg' ? '100px' : '50px',
-        zIndex: 10,
+        zIndex: 1000,
         position: 'absolute',
         left: decoration.x ? `${decoration.x - (decoration.type === 'star.svg' ? 50 : 25)}px` : `60px`,
         top: decoration.y ? `${decoration.y - (decoration.type === 'star.svg' ? 50 : 25)}px` : defaultTop
@@ -27,19 +29,18 @@ const Decoration = ({ decoration, onDragStart, defaultTop }) => {
 
 const Tree = () => {
     const [treeImage, setTreeImage] = useState(TREE_IMAGE_DEFAULT);
-    const [decorations, setDecorations] = useState([]);
+    const { decorations, setDecorations } = useDecorations();
+    console.log(decorations, setDecorations);
+    
 
     useEffect(() => {
-        const storedDecorations = JSON.parse(localStorage.getItem('decorations') || '[]');
-        setDecorations(storedDecorations);
-
-        if (storedDecorations.some(decoration => decoration.type === 'lights1.svg')) {
-            setTreeImage(TREE_IMAGE_LIGHTS);
+        if (decorations.some(decoration => decoration.type === 'lights1.svg')) {
+          setTreeImage(TREE_IMAGE_LIGHTS);
         }
-        if (storedDecorations.some(decoration => decoration.type === 'garland.svg')) {
-            setTreeImage(TREE_IMAGE_GARLAND);
+        if (decorations.some(decoration => decoration.type === 'garland.svg')) {
+          setTreeImage(TREE_IMAGE_GARLAND);
         }
-    }, []);
+      }, [decorations]);
 
     const handleDragStart = useCallback((e, id) => {
         console.log("Drag started for id:", id);
@@ -49,17 +50,19 @@ const Tree = () => {
     const handleDrop = useCallback((e) => {
         const decorationId = e.dataTransfer.getData('decorationId');
         if (!decorationId) return;
-
+    
         const decorationIndex = decorations.findIndex(deco => deco.id === decorationId);
         if (decorationIndex === -1) return;
-
+    
         const decoration = decorations[decorationIndex];
         const updatedDecorations = [...decorations];
         updatedDecorations[decorationIndex] = { ...decoration, x: e.clientX, y: e.clientY };
-
+    
+        // Update the local state using setDecorations from context
         setDecorations(updatedDecorations);
         localStorage.setItem('decorations', JSON.stringify(updatedDecorations));
-    }, [decorations]);
+    }, [decorations, setDecorations]);
+    
 
     return (
         <div className="tree-container" onDrop={handleDrop} onDragOver={(e) => e.preventDefault()}>

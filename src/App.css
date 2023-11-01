@@ -1,14 +1,15 @@
 body,
 html {
   margin: 0;
-
+  background-color: #000;
   height: 100vh;
   display: flex;
-  justify-content: center;
+  
 }
 .app-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: nowrap;
   color: white;
   
 }
@@ -53,3 +54,10 @@ html {
   background-color: rgb(41, 41, 41);
   box-shadow: inset 3px 3px 10px 3px rgba(0, 0, 0, 0.7);
 }
+.tree-container {
+  
+  
+  height: 100vh;
+  
+}
+
