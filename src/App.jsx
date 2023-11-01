@@ -1,3 +1,6 @@
+import { v4 as uuidv4 } from 'uuid';
+
+
 import React, { useState } from "react";
 import Calendar from "./components/Calendar";
 import Tree from "./components/Tree";
@@ -29,26 +32,22 @@ const App = () => {
         num === 1
           ? "lights1.svg"
           : num === 24
-          ? "star.svg"
-          : num === 10
-          ? "garland.svg"
-          : decorations[Math.floor(Math.random() * 6)],
+            ? "star.svg"
+            : num === 10
+              ? "garland.svg"
+              : decorations[Math.floor(Math.random() * 6)],
     }));
   });
-  const updateLocalStorage = (decoration) => {
-    const storedDecorations = JSON.parse(
-      localStorage.getItem("decorations") || "{}"
-    );
+  const updateLocalStorage = (decorationType) => {
+    const storedDecorations = JSON.parse(localStorage.getItem("decorations") || "[]");
 
-    // Check if the decoration exists in the stored data
-    if (storedDecorations[decoration]) {
-      storedDecorations[decoration]++;
-    } else {
-      storedDecorations[decoration] = 1;
-    }
+    // Add the new decoration to the stored data with a unique ID
+    storedDecorations.push({ id: uuidv4(), type: decorationType });
 
     localStorage.setItem("decorations", JSON.stringify(storedDecorations));
-  };
+};
+
+
 
   const handleDoorClick = (doorNumber) => {
     setDoors((prevDoors) => {
