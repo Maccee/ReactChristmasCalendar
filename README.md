@@ -2,4 +2,5 @@
 
 Simple and quick test of React capability.
 
-![My Image](capture.PNG)
+![My Image](Capture.PNG)
+![My Image](public/Capture.PNG)
